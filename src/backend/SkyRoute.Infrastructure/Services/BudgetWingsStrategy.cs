@@ -1,4 +1,3 @@
-using SkyRoute.Domain;
 using SkyRoute.Domain.Interfaces;
 using SkyRoute.Domain.Models;
 

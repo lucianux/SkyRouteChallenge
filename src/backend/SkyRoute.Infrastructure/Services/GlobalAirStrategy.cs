@@ -9,8 +9,8 @@ namespace SkyRoute.Infrastructure.Services
 
       public Task<IEnumerable<InternalFlightResult>> SearchFlightsAsync(FlightSearchParams searchParams)
       {
-          // Simulamos datos realistas basados en la búsqueda. 
-          // En un escenario real, acá se haría un HttpClient.GetAsync() a la API de GlobalAir.
+          // We simulate realistic data based on the search. 
+          // In a real-world scenario, this would involve using HttpClient.GetAsync() on the GlobalAir API.
           var mockFlights = new List<InternalFlightResult>
           {
               new("GA-742", searchParams.DepartureDate.AddHours(8), searchParams.DepartureDate.AddHours(14).AddMinutes(15), 375, searchParams.CabinClass, 250.00m),

@@ -7,7 +7,7 @@ namespace SkyRoute.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            // Registramos los servicios propios de la capa de aplicación
+            // We register the services specific to the application layer
             services.AddScoped<IFlightSearchService, FlightSearchService>();
             services.AddScoped<IBookingService, BookingService>();
 

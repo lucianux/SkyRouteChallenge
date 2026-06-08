@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using SkyRoute.Domain.Interfaces;
 using SkyRoute.Domain.Models;
 
@@ -16,27 +14,25 @@ namespace SkyRoute.Application.Services
 
         public async Task<BookingResponse> CreateBookingAsync(BookingRequest request)
         {
-            // 1. Validaciones de consistencia de negocio básicas
+            // 1. Basic business consistency validations
             if (request == null || request.Passengers == null || request.Passengers.Count == 0)
             {
-                throw new ArgumentException("La reserva debe contener al menos un pasajero.");
+                throw new ArgumentException("The reservation must contain at least one passenger.");
             }
 
-            // 2. Extraer datos del FlightId sintético (ej: "GBL-GA-742-20260615")
-            // Esto nos permite saber qué proveedor originó el vuelo para auditoría interna
+            // 2. Extract data from the synthetic FlightId (e.g., "GBL-GA-742-20260615")
+            // This allows us to know which provider originated the flight for internal audit purposes.
             var parts = request.FlightId.Split('-');
             if (parts.Length < 2)
             {
-                throw new ArgumentException("El identificador de vuelo (FlightId) provisto es inválido.");
+                throw new ArgumentException("The provided flight identifier (FlightId) is invalid.");
             }
             
             string providerCode = parts[0]; // GBL o BUD
 
-            // [Nota de Senior]: En un flujo real de producción completa, aquí usaríamos el providerCode 
-            // para volver a consultar de manera interna el precio del tramo del proveedor y asegurar 
-            // que la tarifa no expiró ni fue manipulada en el cliente Web.
+            // In a real, full production workflow, we would use the providerCode to internally re-query the provider's tier price and ensure that the rate has not expired or been tampered with on the web client.
 
-            // 3. Persistir la reserva delegando en la abstracción del repositorio
+            // 3. Persisting the reserve by delegating to the abstraction of the repository
             var response = await _bookingRepository.SaveBookingAsync(request);
 
             return response;

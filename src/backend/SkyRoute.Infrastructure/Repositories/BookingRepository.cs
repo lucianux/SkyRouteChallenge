@@ -6,23 +6,23 @@ namespace SkyRoute.Infrastructure.Repositories
 {
     public class BookingRepository : IBookingRepository
     {
-        // Almacenamiento en memoria Thread-Safe
+        // Thread-Safe memory storage
         private static readonly ConcurrentDictionary<string, BookingRequest> _storage = new();
 
         public Task<BookingResponse> SaveBookingAsync(BookingRequest bookingRequest)
         {
-            // Generamos un código de referencia único para el Challenge (ej: SR-2026-XF93)
+            // We generate a unique reference code for the Challenge (e.g., SR-2026-XF93)
             string referenceCode = $"SR-{DateTime.UtcNow.Year}-{Guid.NewGuid().ToString()[..4].ToUpper()}";
 
-            // Guardamos la reserva indexada por su código de referencia
+            // We saved the reservation indexed by its reference code
             bool isSaved = _storage.TryAdd(referenceCode, bookingRequest);
 
             if (!isSaved)
             {
-                throw new InvalidOperationException("Hubo un conflicto de concurrencia al generar la referencia de la reserva.");
+                throw new InvalidOperationException("There was a conflict of concurrency when generating the reservation reference.");
             }
 
-            // Retornamos la respuesta con estado Confirmado y la fecha actual
+            // We return the response with the status Confirmed and the current date
             var response = new BookingResponse(
                 referenceCode,
                 "Confirmed",

@@ -5,15 +5,15 @@ using SkyRoute.Domain.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Registro de Servicios Modularizado ---
+// Modularized Service Registry
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
 
-// Configuración de Swagger
+// Swagger Configuration
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configuración de CORS amigable para el desarrollo local con Angular
+// Friendly CORS configuration for local development with Angular
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy => 
@@ -24,23 +24,23 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Activación de la UI de Swagger en entorno de Desarrollo
+// Activating the Swagger UI in a Development Environment
 if (app.Environment.IsDevelopment())
 {
   app.UseSwagger();
   app.UseSwaggerUI(c =>
   {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyRoute API v1");
-    // Esto hace que Swagger sea la página de inicio (http://localhost:5000/)
+    // This makes the Swagger tool appear on the home page (http://localhost:5122/)
     c.RoutePrefix = string.Empty;
   });
 }
 
 app.UseCors();
 
-// --- Endpoints de la API ---
+// --- API Endpoints ---
 
-// 1. Endpoint de Búsqueda de Vuelos
+// 1. Flight Search Endpoint
 app.MapGet("/api/flights", async (
     [FromQuery] string origin,
     [FromQuery] string destination,
@@ -61,7 +61,7 @@ app.MapGet("/api/flights", async (
     return Results.Ok(results);
 });
 
-// 2. Endpoint de Confirmación de Reservas
+// 2. Booking Confirmation Endpoint
 app.MapPost("/api/bookings", async (
     [FromBody] BookingRequest request,
     IBookingService bookingService) =>
@@ -69,7 +69,7 @@ app.MapPost("/api/bookings", async (
     try
     {
         var response = await bookingService.CreateBookingAsync(request);
-        // Devolvemos un 21 Created con la información de la reserva
+        // We return a response with the HTTP code 201, which means "Created," along with the booking information.
         return Results.Json(response, statusCode: StatusCodes.Status201Created);
     }
     catch (ArgumentException ex)
@@ -81,7 +81,5 @@ app.MapPost("/api/bookings", async (
         return Results.StatusCode(500);
     }
 });
-
-app.MapGet("/", () => "App is running");
 
 app.Run();
