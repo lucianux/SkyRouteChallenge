@@ -1,0 +1,108 @@
+<div class="container my-4">
+  
+  @if (bookingSuccess()) {
+    <div class="card p-5 text-center shadow-lg border-0 bg-success-subtle">
+      <div class="mb-3">
+        <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+      </div>
+      <h2 class="text-success-emphasis">¡Reserva Confirmada con Éxito!</h2>
+      <p class="lead mt-2">Tu vuelo ha sido registrado de forma segura en el agregador SkyRoute.</p>
+      
+      <div class="my-4 p-3 bg-white d-inline-block rounded border shadow-sm">
+        <span class="text-muted d-block text-uppercase small font-monospace">Código de Referencia</span>
+        <strong class="h2 text-primary letter-spacing-2">{{ bookingReference() }}</strong>
+      </div>
+      
+      <div>
+        <button class="btn btn-primary px-4" routerLink="/search">Volver al Buscador</button>
+      </div>
+    </div>
+  } 
+  
+  @else {
+    <div class="row g-4">
+      
+      <div class="col-lg-8">
+        <div class="card p-4 shadow-sm">
+          <h4 class="mb-4">Información de los Pasajeros</h4>
+          
+          <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+            <div formArrayName="passengers">
+              
+              @for (passenger of passengersArray.controls; track $index) {
+                <div [formGroupName]="$index" class="p-3 mb-4 border rounded bg-light position-relative">
+                  <h6 class="text-primary mb-3">Pasajero #{{ $index + 1 }}</h6>
+                  
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label">Nombre Completo</label>
+                      <input type="text" class="form-control" formControlName="fullName" placeholder="Ej. Juan Pérez">
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <label class="form-label">Correo Electrónico</label>
+                      <input type="email" class="form-control" formControlName="email" placeholder="ejemplo@correo.com">
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <label class="form-label font-weight-bold text-dark">{{ documentLabel() }}</label>
+                      <input type="text" class="form-control text-uppercase" formControlName="documentNumber" 
+                             [placeholder]="isInternational() ? 'Ej. AA123456' : 'Ej. 35123456'">
+                      
+                      @if (passenger.get('documentNumber')?.invalid && passenger.get('documentNumber')?.touched) {
+                        <small class="text-danger d-block mt-1">
+                          El formato del {{ documentLabel() }} ingresado es inválido.
+                        </small>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+              
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <a class="btn btn-outline-secondary" routerLink="/search">Cancelar</a>
+              <button type="submit" class="btn btn-success px-5" [disabled]="bookingForm.invalid || isSubmitting()">
+                @if (isSubmitting()) { Procesando... } @else { Confirmar Reserva }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        @if (flight(); as f) {
+          <div class="card shadow-sm border-primary">
+            <div class="card-header bg-primary text-white">
+              <h5 class="card-title mb-0">Resumen de tu Viaje</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3 border-bottom pb-2">
+                <span class="badge bg-secondary mb-2">{{ f.provider }}</span>
+                <h6 class="mb-1">Vuelo: {{ f.flightNumber }} ({{ f.cabinClass }})</h6>
+                <p class="text-muted small mb-0">Ruta: {{ searchParams()?.origin }} ➔ {{ searchParams()?.destination }}</p>
+              </div>
+
+              <h6 class="text-dark mb-3">Desglose de Costos</h6>
+              <div class="d-flex justify-content-between small text-muted mb-2">
+                <span>Precio unitario:</span>
+                <span>{{ f.pricePerPassenger | currency }}</span>
+              </div>
+              <div class="d-flex justify-content-between small text-muted mb-2">
+                <span>Pasajeros:</span>
+                <span>x {{ searchParams()?.passengers }}</span>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between align-items-center">
+                <strong class="text-dark">Total Final:</strong>
+                <strong class="h3 text-success mb-0">{{ f.priceTotal | currency }}</strong>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+  }
+</div>
