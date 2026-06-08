@@ -1,0 +1,37 @@
+# ==========================================
+# SkyRoute Challenge - Backend (.NET) .gitignore
+# ==========================================
+
+# Resultados de compilación y artefactos
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Re]leases/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bin/
+obj/
+
+# Caché específica de Visual Studio y herramientas
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de JetBrains Rider / Resharper
+.idea/
+*.sln.iml
+
+# Resultados de Pruebas Unitarias
+TestResults/
+
+# Bases de datos locales en caso de usar SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Archivos confidenciales de usuario / User Secrets
+# (Descomentar si usás secretos locales fuera de appsettings.json)
+# secrets.json
