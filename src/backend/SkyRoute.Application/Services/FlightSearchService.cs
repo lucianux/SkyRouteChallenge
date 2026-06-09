@@ -19,6 +19,9 @@ namespace SkyRoute.Application.Services
       {
         var rawFlights = await provider.SearchFlightsAsync(searchParams);
 
+        // Artificial delay - Network Latency Simulation
+        //await Task.Delay(2000);
+
         // Each provider maps and calculates its prices in isolation and independently.
         return rawFlights.Select(rawFlight =>
         {
