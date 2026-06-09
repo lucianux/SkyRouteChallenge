@@ -46,6 +46,7 @@ graph TD
     style Application fill:#b8754b,stroke:#1b5e20,stroke-width:2px;
     style Infrastructure fill:#ab7013,stroke:#e65100,stroke-width:2px;
     style API fill:#1c7512,stroke:#4a148c,stroke-width:2px;
+```
 
 ## Key Design Decisions
 
