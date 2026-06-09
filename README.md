@@ -42,7 +42,7 @@ graph TD
     Infrastructure -.->|Implements Interfaces from| Application
 
     %% Layer Styling for Clear Visualization
-    style Domain fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    style Application fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
-    style Infrastructure fill:#fff3e0,stroke:#e65100,stroke-width:2px;
-    style API fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+    style Domain fill:#036a99,stroke:#01579b,stroke-width:2px;
+    style Application fill:#b8754b,stroke:#1b5e20,stroke-width:2px;
+    style Infrastructure fill:#ab7013,stroke:#e65100,stroke-width:2px;
+    style API fill:#1c7512,stroke:#4a148c,stroke-width:2px;
