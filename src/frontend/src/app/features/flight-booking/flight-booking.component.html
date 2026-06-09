@@ -5,16 +5,16 @@
       <div class="mb-3">
         <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
       </div>
-      <h2 class="text-success-emphasis">¡Reserva Confirmada con Éxito!</h2>
-      <p class="lead mt-2">Tu vuelo ha sido registrado de forma segura en el agregador SkyRoute.</p>
+      <h2 class="text-success-emphasis">Booking Successfully Confirmed!</h2>
+      <p class="lead mt-2">Your flight has been securely registered on SkyRoute.</p>
       
       <div class="my-4 p-3 bg-white d-inline-block rounded border shadow-sm">
-        <span class="text-muted d-block text-uppercase small font-monospace">Código de Referencia</span>
+        <span class="text-muted d-block text-uppercase small font-monospace">Reference Code</span>
         <strong class="h2 text-primary letter-spacing-2">{{ bookingReference() }}</strong>
       </div>
       
       <div>
-        <button class="btn btn-primary px-4" routerLink="/search">Volver al Buscador</button>
+        <button class="btn btn-primary px-4" routerLink="/search">Return to Search Engine</button>
       </div>
     </div>
   } 
@@ -24,23 +24,23 @@
       
       <div class="col-lg-8">
         <div class="card p-4 shadow-sm">
-          <h4 class="mb-4">Información de los Pasajeros</h4>
+          <h4 class="mb-4">Passenger Information</h4>
           
           <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
             <div formArrayName="passengers">
               
               @for (passenger of passengersArray.controls; track $index) {
                 <div [formGroupName]="$index" class="p-3 mb-4 border rounded bg-light position-relative">
-                  <h6 class="text-primary mb-3">Pasajero #{{ $index + 1 }}</h6>
+                  <h6 class="text-primary mb-3">Passenger #{{ $index + 1 }}</h6>
                   
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <label class="form-label">Nombre Completo</label>
+                      <label class="form-label">Full Name</label>
                       <input type="text" class="form-control" formControlName="fullName" placeholder="Ej. Juan Pérez">
                     </div>
                     
                     <div class="col-md-6">
-                      <label class="form-label">Correo Electrónico</label>
+                      <label class="form-label">Email</label>
                       <input type="email" class="form-control" formControlName="email" placeholder="ejemplo@correo.com">
                     </div>
                     
@@ -51,7 +51,7 @@
                       
                       @if (passenger.get('documentNumber')?.invalid && passenger.get('documentNumber')?.touched) {
                         <small class="text-danger d-block mt-1">
-                          El formato del {{ documentLabel() }} ingresado es inválido.
+                          The format of the entered {{ documentLabel() }} is invalid.
                         </small>
                       }
                     </div>
@@ -62,9 +62,9 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center mt-4">
-              <a class="btn btn-outline-secondary" routerLink="/search">Cancelar</a>
+              <a class="btn btn-outline-secondary" routerLink="/search">Cancel</a>
               <button type="submit" class="btn btn-success px-5" [disabled]="bookingForm.invalid || isSubmitting()">
-                @if (isSubmitting()) { Procesando... } @else { Confirmar Reserva }
+                @if (isSubmitting()) { Processing... } @else { Confirm Reservation }
               </button>
             </div>
           </form>
@@ -75,27 +75,27 @@
         @if (flight(); as f) {
           <div class="card shadow-sm border-primary">
             <div class="card-header bg-primary text-white">
-              <h5 class="card-title mb-0">Resumen de tu Viaje</h5>
+              <h5 class="card-title mb-0">Summary of your trip</h5>
             </div>
             <div class="card-body">
               <div class="mb-3 border-bottom pb-2">
                 <span class="badge bg-secondary mb-2">{{ f.provider }}</span>
-                <h6 class="mb-1">Vuelo: {{ f.flightNumber }} ({{ f.cabinClass }})</h6>
-                <p class="text-muted small mb-0">Ruta: {{ searchParams()?.origin }} ➔ {{ searchParams()?.destination }}</p>
+                <h6 class="mb-1">Flight: {{ f.flightNumber }} ({{ f.cabinClass }})</h6>
+                <p class="text-muted small mb-0">Route: {{ searchParams()?.origin }} ➔ {{ searchParams()?.destination }}</p>
               </div>
 
-              <h6 class="text-dark mb-3">Desglose de Costos</h6>
+              <h6 class="text-dark mb-3">Cost Breakdown</h6>
               <div class="d-flex justify-content-between small text-muted mb-2">
-                <span>Precio unitario:</span>
+                <span>Unit price:</span>
                 <span>{{ f.pricePerPassenger | currency }}</span>
               </div>
               <div class="d-flex justify-content-between small text-muted mb-2">
-                <span>Pasajeros:</span>
+                <span>Passengers:</span>
                 <span>x {{ searchParams()?.passengers }}</span>
               </div>
               <hr>
               <div class="d-flex justify-content-between align-items-center">
-                <strong class="text-dark">Total Final:</strong>
+                <strong class="text-dark">Final Total:</strong>
                 <strong class="h3 text-success mb-0">{{ f.priceTotal | currency }}</strong>
               </div>
             </div>

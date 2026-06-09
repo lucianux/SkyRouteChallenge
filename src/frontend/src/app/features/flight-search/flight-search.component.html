@@ -1,27 +1,27 @@
 <div class="container my-4">
   <div class="card p-4 shadow-sm bg-light">
-    <h3 class="mb-4">Busca tu próximo destino</h3>
+    <h3 class="mb-4">Find your next destination</h3>
     
     <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
       <div class="row g-3">
         <div class="col-md-2">
-          <label class="form-label">Origen (IATA)</label>
-          <input type="text" class="form-control text-uppercase" formControlName="origin" placeholder="Ej. EZE">
+          <label class="form-label">Origin (IATA)</label>
+          <input type="text" class="form-control text-uppercase" formControlName="origin" placeholder="e.g., EZE">
         </div>
         <div class="col-md-2">
-          <label class="form-label">Destino (IATA)</label>
-          <input type="text" class="form-control text-uppercase" formControlName="destination" placeholder="Ej. MIA">
+          <label class="form-label">Destination (IATA)</label>
+          <input type="text" class="form-control text-uppercase" formControlName="destination" placeholder="e.g., MIA">
         </div>
         <div class="col-md-3">
-          <label class="form-label">Fecha de Salida</label>
+          <label class="form-label">Departure date</label>
           <input type="date" class="form-control" formControlName="departureDate">
         </div>
         <div class="col-md-2">
-          <label class="form-label">Pasajeros (1-9)</label>
+          <label class="form-label">Passengers (1-9)</label>
           <input type="number" class="form-control" formControlName="passengers">
         </div>
         <div class="col-md-3">
-          <label class="form-label">Clase de Cabina</label>
+          <label class="form-label">Cabin class</label>
           <select class="form-select" formControlName="cabinClass">
             <option value="Economy">Economy</option>
             <option value="Business">Business</option>
@@ -31,7 +31,7 @@
       </div>
       <div class="text-end mt-3">
         <button type="submit" class="btn btn-primary px-4" [disabled]="searchForm.invalid || isLoading()">
-          @if (isLoading()) { Buscando... } @else { Buscar Vuelos }
+          @if (isLoading()) { Searching... } @else { Search for Flights }
         </button>
       </div>
     </form>
@@ -39,11 +39,11 @@
 
   @if (flights().length > 0) {
     <div class="d-flex justify-content-between align-items-center mt-4 p-2 bg-white border rounded shadow-sm">
-      <span class="text-muted">{{ flights().length }} vuelos encontrados</span>
+      <span class="text-muted">{{ flights().length }} flights found</span>
       <div class="btn-group btn-group-sm">
-        <button class="btn btn-outline-secondary" [class.active]="sortBy() === 'price'" (click)="changeSort('price')">Precio</button>
-        <button class="btn btn-outline-secondary" [class.active]="sortBy() === 'duration'" (click)="changeSort('duration')">Duración</button>
-        <button class="btn btn-outline-secondary" [class.active]="sortBy() === 'departure'" (click)="changeSort('departure')">Hora de Salida</button>
+        <button class="btn btn-outline-secondary" [class.active]="sortBy() === 'price'" (click)="changeSort('price')">Price</button>
+        <button class="btn btn-outline-secondary" [class.active]="sortBy() === 'duration'" (click)="changeSort('duration')">Duration</button>
+        <button class="btn btn-outline-secondary" [class.active]="sortBy() === 'departure'" (click)="changeSort('departure')">Departure time</button>
       </div>
     </div>
 
@@ -54,7 +54,7 @@
     </div>
   } @else if (!isLoading() && searchForm.valid) {
     <div class="alert alert-info mt-4 text-center">
-      No se encontraron vuelos para la búsqueda seleccionada.
+      No flights were found for the selected search.
     </div>
   }
 </div>

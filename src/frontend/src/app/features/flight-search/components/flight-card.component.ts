@@ -10,10 +10,10 @@ import { FlightResponse } from '../../../core/models/flight.model';
   styleUrl: './flight-card.component.scss'
 })
 export class FlightCardComponent {
-  // Signal Inputs (Sintaxis moderna de Angular 21)
+  // Signal Inputs
   flight = input.required<FlightResponse>();
   
-  // Output moderno (reemplaza a @Output() con EventEmitter)
+  // Modern Output (replaces @Output() with EventEmitter)
   selectFlight = output<FlightResponse>();
 
   onSelect(): void {

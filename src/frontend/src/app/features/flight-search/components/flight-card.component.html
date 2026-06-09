@@ -25,12 +25,12 @@
 
     <div class="price-action text-end">
       <div class="mb-2">
-        <span class="text-muted small d-block">Por pasajero: {{ flight().pricePerPassenger | currency }}</span>
+        <span class="text-muted small d-block">Per passenger: {{ flight().pricePerPassenger | currency }}</span>
         <strong class="h4 text-success d-block">{{ flight().priceTotal | currency }}</strong>
         <span class="text-muted xs-block">Total</span>
       </div>
       <button class="btn btn-outline-primary btn-sm" (click)="onSelect()">
-        Seleccionar
+        Select
       </button>
     </div>
   </div>

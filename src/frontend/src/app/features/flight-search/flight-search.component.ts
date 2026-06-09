@@ -59,7 +59,7 @@ export class FlightSearchComponent {
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Error buscando vuelos:', err);
+        console.error('Error searching for flights:', err);
         this.isLoading.set(false);
       }
     });
