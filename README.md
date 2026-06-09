@@ -75,6 +75,7 @@ graph TD
 To run the full stack locally for testing and verification purposes, open two separate instances of your terminal:
 
 ### Step 1: Run the Backend (.NET Web API)
+
 - Navigate to the API entry point project directory:
 ```
 cd SkyRouteChallenge/src/backend/SkyRoute.Api
@@ -85,7 +86,8 @@ dotnet run
 ```
 - The API will spin up locally. You can access the Swagger UI directly at http://localhost:5122 to interact with raw endpoints.
 
-## Step 2: Run the Frontend (Angular SPA)
+### Step 2: Run the Frontend (Angular SPA)
+
 - Navigate to the frontend directory:
 ```
 cd SkyRouteChallenge/src/frontend
