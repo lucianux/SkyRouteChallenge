@@ -19,5 +19,16 @@ namespace SkyRoute.Infrastructure.Services
 
           return Task.FromResult<IEnumerable<InternalFlightResult>>(mockFlights);
       }
+      
+      public decimal CalculateFinalPrice(decimal basePrice, int passengers)
+      {
+          // Base fare + 15% fuel surcharge
+          decimal pricePerPassengerWithSurcharges = basePrice * 1.15m;
+
+          decimal finalPrice = pricePerPassengerWithSurcharges * passengers;
+
+          // Strict requirement: Always round the final price to 2 decimal places.
+          return Math.Round(finalPrice, 2, MidpointRounding.AwayFromZero);
+      }
   }
 }

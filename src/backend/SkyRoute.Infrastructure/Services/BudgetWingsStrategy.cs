@@ -17,5 +17,17 @@ namespace SkyRoute.Infrastructure.Services
 
           return Task.FromResult<IEnumerable<InternalFlightResult>>(mockFlights);
       }
+      
+      public decimal CalculateFinalPrice(decimal basePrice, int passengers)
+      {
+          // The discount is always applied to the base rate only.
+          decimal discountedPricePerPassenger = basePrice * 0.90m;
+
+          // The total amount accumulated for the number of passengers
+          decimal totalPrice = discountedPricePerPassenger * passengers;
+
+          // The minimum final price per passenger is $29.99
+          return Math.Max(totalPrice, 29.99m);
+      }
   }
 }

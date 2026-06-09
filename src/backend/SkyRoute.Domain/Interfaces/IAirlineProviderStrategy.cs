@@ -6,5 +6,6 @@ namespace SkyRoute.Domain.Interfaces
     {
         string ProviderName { get; }
         Task<IEnumerable<InternalFlightResult>> SearchFlightsAsync(FlightSearchParams searchParams);
+        decimal CalculateFinalPrice(decimal basePrice, int passengers);
     }
 }
