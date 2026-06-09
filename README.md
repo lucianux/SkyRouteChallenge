@@ -67,8 +67,8 @@ graph TD
 
 ## Tech Stack & Versions
 
-Backend: .NET 8 Web API, Minimal Endpoints, LINQ.
-Frontend: Angular 21, Reactive Forms, Bootstrap 5 UI.
+- Backend: .NET 8 Web API, Minimal Endpoints, LINQ.
+- Frontend: Angular 21, Reactive Forms, Bootstrap 5 UI.
 
 ## Local Development Setup
 
