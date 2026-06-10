@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  skyroute-backend:
+    container_name: skyroute-api-container
+    build:
+      context: .
+      dockerfile: src/backend/Dockerfile
+    ports:
+      - "5122:80" # Map port 5122 of your physical machine to port 80 of the container
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  skyroute-frontend:
+    container_name: skyroute-angular-container
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80" # Map port 4200 on your physical machine to port 80 on Nginx
+    depends_on:
+      - skyroute-backend # Make sure the back tries to lift first
