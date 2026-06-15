@@ -142,3 +142,7 @@ docker compose up --build --force-recreate
 ```bash
 docker compose logs -f
 ```
+
+## Constraints
+
+- Search Input Validation: Origin and destination locations must be entered using standard 3-letter IATA airport codes (e.g., EZE).
