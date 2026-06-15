@@ -101,3 +101,44 @@ npm install
 ng serve
 ```
 - Open your web browser and go to: http://localhost:4200
+
+## Running the Ecosystem with Docker Compose
+
+The entire monorepo is fully containerized, allowing you to spin up both the .NET 10 Backend API and the Angular 21 Frontend SPA simultaneously within isolated network environments. 
+
+### Prerequisites
+* Ensure you have **Docker** and **Docker Compose** installed on your machine.
+* Verify that ports `5000` (Backend) and `4200` (Frontend) are not being utilized by other local services.
+
+### 🚀 Getting Started
+
+1. **Navigate to the root directory** of the repository (`SkyRouteChallenge/`):
+```bash
+cd SkyRouteChallenge
+```
+
+2. Build and launch the containers in a single step:
+```bash
+docker compose up --build
+```
+This command will read the global context, fetch the official .NET 10 and Node 22 images, synchronize the SDK configurations, compile the backend, build the Angular production bundles, and serve them via an optimized Nginx instance.
+
+3. Verify the running applications:
+- Frontend Dashboard (Angular): Open your browser and navigate to http://localhost:4200
+- Backend API Swagger Documentation: Access the live interactive documentation at http://localhost:5122
+
+4. Maintenance & Troubleshooting Commands
+If you make structural changes to your code or update NuGet/npm packages, use these commands to ensure a clean slate:
+- Stop and tear down the environment:
+```bash
+docker compose down
+```
+- Force recreation without using stale cache (Recommended after config updates):
+```bash
+docker builder prune -f
+docker compose up --build --force-recreate
+```
+- Inspect live container execution logs:
+```bash
+docker compose logs -f
+```
