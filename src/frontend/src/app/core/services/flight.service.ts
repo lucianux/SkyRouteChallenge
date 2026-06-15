@@ -7,15 +7,14 @@ import { FlightSearchParams, FlightResponse, BookingRequest, BookingResponse } f
   providedIn: 'root'
 })
 export class FlightService {
-  private http = inject(HttpClient); // Sintaxis moderna basada en funciones de inyección
-  private apiUrl = 'http://localhost:5122/api'; // Puerto de nuestra API .NET
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:5122/api';
 
-  // Estado global reactivo usando Signals de Angular 21
   selectedFlight = signal<FlightResponse | null>(null);
   currentSearchParams = signal<FlightSearchParams | null>(null);
 
   searchFlights(params: FlightSearchParams): Observable<FlightResponse[]> {
-    // Seteamos los parámetros actuales en la Signal
+    // We set the current parameters in the Signal
     this.currentSearchParams.set(params);
 
     const httpParams = new HttpParams()
