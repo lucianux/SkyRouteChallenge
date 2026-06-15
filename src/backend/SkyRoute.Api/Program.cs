@@ -53,25 +53,6 @@ app.MapGet("/health", () => Results.Ok("Application is running"));
 
 app.MapFlightEndpoints();
 
-// 2. Booking Confirmation Endpoint
-app.MapPost("/api/bookings", async (
-    [FromBody] BookingRequest request,
-    IBookingService bookingService) =>
-{
-    try
-    {
-        var response = await bookingService.CreateBookingAsync(request);
-        // We return a response with the HTTP code 201, which means "Created" along with the booking information.
-        return Results.Json(response, statusCode: StatusCodes.Status201Created);
-    }
-    catch (ArgumentException ex)
-    {
-        return Results.BadRequest(ex.Message);
-    }
-    catch (Exception)
-    {
-        return Results.StatusCode(500);
-    }
-});
+app.MapBookingEndpoints();
 
 app.Run();
