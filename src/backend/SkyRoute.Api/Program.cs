@@ -1,9 +1,17 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using SkyRoute.Application;
 using SkyRoute.Infrastructure;
 using SkyRoute.Domain.Models;
+using SkyRoute.Api.Contracts.Validations;
+using SkyRoute.Api.Contracts.Requests;
+using Microsoft.AspNetCore.Http.HttpResults;
+using SkyRoute.Api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Registers all validators of the current assembly
+builder.Services.AddValidatorsFromAssemblyContaining<FlightSearchRequestValidator>();
 
 // Modularized Service Registry
 builder.Services.AddApplicationServices();
@@ -38,28 +46,25 @@ app.UseCors();
 
 // --- API Endpoints ---
 
+// 0. Health check
+app.MapGet("/health", () => Results.Ok("Application is running"));
+
 // 1. Flight Search Endpoint
 app.MapGet("/api/flights", async (
-    [FromQuery] string origin,
-    [FromQuery] string destination,
-    [FromQuery] DateTime departureDate,
-    [FromQuery] int passengers,
-    [FromQuery] string cabinClass,
+    [AsParameters] FlightSearchRequest request,
     IFlightSearchService searchService) =>
 {
-    #region Validations
-    if (string.IsNullOrWhiteSpace(origin) || string.IsNullOrWhiteSpace(destination))
-        return Results.BadRequest("Origin and Destination are required.");
-
-    if (passengers < 1 || passengers > 9)
-        return Results.BadRequest("Passengers count must be between 1 and 9.");
-    #endregion
-
-    var searchParams = new FlightSearchParams(origin, destination, departureDate, passengers, cabinClass);
+    var searchParams = new FlightSearchParams(
+        request.Origin,
+        request.Destination,
+        request.DepartureDate,
+        request.Passengers,
+        request.CabinClass
+    );
     var results = await searchService.SearchAndConsolidateAsync(searchParams);
-    
     return Results.Ok(results);
-});
+})
+.AddEndpointFilter<ValidationFilter<FlightSearchRequest>>();
 
 // 2. Booking Confirmation Endpoint
 app.MapPost("/api/bookings", async (
