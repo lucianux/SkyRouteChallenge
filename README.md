@@ -84,7 +84,7 @@ cd SkyRouteChallenge/src/backend/SkyRoute.Api
 ```
 dotnet run
 ```
-- The API will spin up locally. You can access the Swagger UI directly at http://localhost:5122 to interact with raw endpoints.
+- The API will spin up locally. You can access the Swagger UI directly at http://localhost:5122/swagger to interact with raw endpoints.
 
 ### Step 2: Run the Frontend (Angular SPA)
 
@@ -125,7 +125,7 @@ This command will read the global context, fetch the official .NET 10 and Node 2
 
 3. Verify the running applications:
 - Frontend Dashboard (Angular): Open your browser and navigate to http://localhost:4200
-- Backend API Swagger Documentation: Access the live interactive documentation at http://localhost:5122
+- Backend API Swagger Documentation: Access the live interactive documentation at http://localhost:5122/swagger
 
 4. Maintenance & Troubleshooting Commands
 If you make structural changes to your code or update NuGet/npm packages, use these commands to ensure a clean slate:
