@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   skyroute-backend:
     container_name: skyroute-api-container
