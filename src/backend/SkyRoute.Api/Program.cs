@@ -47,11 +47,13 @@ app.MapGet("/api/flights", async (
     [FromQuery] string cabinClass,
     IFlightSearchService searchService) =>
 {
+    #region Validations
     if (string.IsNullOrWhiteSpace(origin) || string.IsNullOrWhiteSpace(destination))
         return Results.BadRequest("Origin and Destination are required.");
 
     if (passengers < 1 || passengers > 9)
         return Results.BadRequest("Passengers count must be between 1 and 9.");
+    #endregion
 
     var searchParams = new FlightSearchParams(origin, destination, departureDate, passengers, cabinClass);
     var results = await searchService.SearchAndConsolidateAsync(searchParams);
@@ -67,7 +69,7 @@ app.MapPost("/api/bookings", async (
     try
     {
         var response = await bookingService.CreateBookingAsync(request);
-        // We return a response with the HTTP code 201, which means "Created," along with the booking information.
+        // We return a response with the HTTP code 201, which means "Created" along with the booking information.
         return Results.Json(response, statusCode: StatusCodes.Status201Created);
     }
     catch (ArgumentException ex)
