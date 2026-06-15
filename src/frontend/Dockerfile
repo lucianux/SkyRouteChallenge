@@ -1,20 +1,20 @@
-# Etapa 1: Compilación de la SPA
+# Stage 1: SPA Compilation
 FROM node:22-alpine AS build-step
 WORKDIR /app
 
-# Copiar manifiestos e instalar dependencias
+# Copy manifests and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copiar código fuente y compilar para producción
+# Copy source code and compile for production
 COPY . .
 RUN npm run build -- --configuration=production
 
-# Etapa 2: Servidor Nginx para los estáticos
+# Stage 2: Nginx server for static files
 FROM nginx:alpine
-# Angular por defecto compila en dist/[nombre-proyecto]/browser
+# Angular compiles by default to dist/[project-name]/browser
 COPY --from=build-step /app/dist/frontend/browser /usr/share/nginx/html
 
-# Exponer puerto de la web
+# Expose port of the web
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
