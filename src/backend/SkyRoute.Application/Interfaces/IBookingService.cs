@@ -1,6 +1,6 @@
 using SkyRoute.Domain.Models;
 
-namespace SkyRoute.Application
+namespace SkyRoute.Application.Interfaces
 {
     public interface IBookingService
     {

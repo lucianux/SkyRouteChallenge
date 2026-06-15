@@ -1,5 +1,6 @@
 using SkyRoute.Domain.Interfaces;
 using SkyRoute.Domain.Models;
+using SkyRoute.Application.Interfaces;
 
 namespace SkyRoute.Application.Services
 {

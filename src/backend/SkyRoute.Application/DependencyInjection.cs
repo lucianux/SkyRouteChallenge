@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SkyRoute.Application.Services;
+using SkyRoute.Application.Interfaces;
 
 namespace SkyRoute.Application
 {

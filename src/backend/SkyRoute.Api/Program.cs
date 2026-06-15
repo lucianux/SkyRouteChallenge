@@ -7,6 +7,8 @@ using SkyRoute.Api.Contracts.Validations;
 using SkyRoute.Api.Contracts.Requests;
 using Microsoft.AspNetCore.Http.HttpResults;
 using SkyRoute.Api.Filters;
+using SkyRoute.Api.Endpoints;
+using SkyRoute.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,25 +48,10 @@ app.UseCors();
 
 // --- API Endpoints ---
 
-// 0. Health check
+// Health check endpoint
 app.MapGet("/health", () => Results.Ok("Application is running"));
 
-// 1. Flight Search Endpoint
-app.MapGet("/api/flights", async (
-    [AsParameters] FlightSearchRequest request,
-    IFlightSearchService searchService) =>
-{
-    var searchParams = new FlightSearchParams(
-        request.Origin,
-        request.Destination,
-        request.DepartureDate,
-        request.Passengers,
-        request.CabinClass
-    );
-    var results = await searchService.SearchAndConsolidateAsync(searchParams);
-    return Results.Ok(results);
-})
-.AddEndpointFilter<ValidationFilter<FlightSearchRequest>>();
+app.MapFlightEndpoints();
 
 // 2. Booking Confirmation Endpoint
 app.MapPost("/api/bookings", async (
