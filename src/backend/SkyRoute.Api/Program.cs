@@ -31,8 +31,6 @@ if (app.Environment.IsDevelopment())
   app.UseSwaggerUI(c =>
   {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkyRoute API v1");
-    // This makes the Swagger tool appear on the home page (http://localhost:5122/)
-    c.RoutePrefix = string.Empty;
   });
 }
 
