@@ -23,13 +23,27 @@ builder.Services.AddInfrastructureServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Friendly CORS configuration for local development with Angular
+const string AngularDevPolicy = "AngularDevCors";
+const string AngularProdPolicy = "AngularProdCors";
+
+// Registration and Policy Configuration
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy => 
-        policy.AllowAnyOrigin()
+    // PRD
+    options.AddPolicy(AngularProdPolicy, policy =>
+    {
+        policy.WithOrigins("https://www.skyroute.com")
+              .WithMethods("GET", "POST")
+              .AllowAnyHeader();
+    });
+
+    // Dev
+    options.AddPolicy(AngularDevPolicy, policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "http://127.0.0.1:4200")
               .AllowAnyMethod()
-              .AllowAnyHeader());
+              .AllowAnyHeader();
+    });
 });
 
 var app = builder.Build();
@@ -44,7 +58,14 @@ if (app.Environment.IsDevelopment())
   });
 }
 
-app.UseCors();
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(AngularDevPolicy);
+}
+else
+{
+    app.UseCors(AngularProdPolicy);
+}
 
 // --- API Endpoints ---
 
