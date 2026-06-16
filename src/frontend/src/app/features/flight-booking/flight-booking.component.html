@@ -81,7 +81,13 @@
               <div class="mb-3 border-bottom pb-2">
                 <span class="badge bg-secondary mb-2">{{ f.provider }}</span>
                 <h6 class="mb-1">Flight: {{ f.flightNumber }} ({{ f.cabinClass }})</h6>
-                <p class="text-muted small mb-0">Route: {{ searchParams()?.origin }} ➔ {{ searchParams()?.destination }}</p>
+                
+                <p class="text-dark small mb-1">
+                  <strong>From:</strong> {{ f.origin.airportName }} ({{ f.origin.code }}) — <span class="text-muted">{{ f.origin.country }}</span>
+                </p>
+                <p class="text-dark small mb-2">
+                  <strong>To:</strong> {{ f.destination.airportName }} ({{ f.destination.code }}) — <span class="text-muted">{{ f.destination.country }}</span>
+                </p>
               </div>
 
               <h6 class="text-dark mb-3">Cost Breakdown</h6>

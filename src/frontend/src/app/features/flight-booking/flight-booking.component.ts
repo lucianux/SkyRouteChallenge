@@ -17,40 +17,27 @@ export class FlightBookingComponent implements OnInit {
   private flightService = inject(FlightService);
   private router = inject(Router);
 
-  // Leemos las Signals globales del servicio core
+  // We read the global signals from the core service
   flight = this.flightService.selectedFlight;
   searchParams = this.flightService.currentSearchParams;
 
-  // States locales usando Signals
+  // Local states using Signals
   isSubmitting = signal<boolean>(false);
   bookingSuccess = signal<boolean>(false);
   bookingReference = signal<string>('');
 
-  // Computed Signal: Determina dinámicamente si el vuelo es internacional cruzando los datos
-  // [Nota de Senior]: Mapeamos los 6 aeropuertos del enunciado para deducir el país localmente
   isInternational = computed(() => {
     const currentFlight = this.flight();
-    const params = this.searchParams();
-    if (!currentFlight || !params) return false;
-
-    const getCountry = (airportCode: string): string => {
-      const code = airportCode.toUpperCase();
-      if (code === 'EZE' || code === 'AEP') return 'Argentina';
-      if (code === 'JFK' || code === 'MIA') return 'USA';
-      if (code === 'MAD' || code === 'BCN') return 'Spain';
-      return 'Unknown';
-    };
-
-    return getCountry(params.origin) !== getCountry(params.destination);
+    return currentFlight?.isInternational ?? false;
   });
 
-  // Computed Signals para las reglas dinámicas de la UI
+  // Computed Signals for dynamic UI rules
   documentLabel = computed(() => this.isInternational() ? 'Passport Number' : 'National ID');
   
-  // Regex dinámico: Pasaporte exige formato alfanumérico estricto, DNI solo números
+  // Dynamic regex: Passport requires strict alphanumeric format, DNI only numbers
   documentRegex = computed(() => this.isInternational() ? '^[A-Z0-9]{6,12}$' : '^[0-9]{7,10}$');
 
-  // Formulario Reactivo Raíz
+  // Root Reactive Form
   bookingForm = this.fb.group({
     passengers: this.fb.array([])
   });
@@ -60,13 +47,13 @@ export class FlightBookingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Guardrail: Si el usuario recarga la página de reserva y no hay vuelo seleccionado, lo mandamos al home
+    // If the user reloads the booking page and there is no flight selected, we send them to the home page.
     if (!this.flight() || !this.searchParams()) {
       this.router.navigate(['/search']);
       return;
     }
 
-    // Inicializamos dinámicamente el FormArray según la cantidad de pasajeros buscados originalmente
+    // We dynamically initialize the FormArray according to the number of passengers originally searched for
     const passengerCount = this.searchParams()?.passengers || 1;
     for (let i = 0; i < passengerCount; i++) {
       this.passengersArray.push(this.createPassengerGroup());
@@ -77,7 +64,7 @@ export class FlightBookingComponent implements OnInit {
     return this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      // Inyectamos el regex dinámico computado en la validación inicial
+      // We inject the computed dynamic regex into the initial validation
       documentNumber: ['', [Validators.required, Validators.pattern(this.documentRegex())]]
     });
   }
@@ -97,7 +84,7 @@ export class FlightBookingComponent implements OnInit {
         this.bookingReference.set(response.bookingReference);
         this.bookingSuccess.set(true);
         this.isSubmitting.set(false);
-        this.flightService.clearState(); // Limpiamos el estado global tras el éxito
+        this.flightService.clearState(); // We clean up the overall state after success
       },
       error: (err) => {
         console.error('Error al procesar la reserva:', err);

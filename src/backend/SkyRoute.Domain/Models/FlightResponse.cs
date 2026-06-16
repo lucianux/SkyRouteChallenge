@@ -4,6 +4,8 @@ namespace SkyRoute.Domain.Models
 {
     public record FlightResponse(
         string FlightId,
+        AirportDetails Origin,
+        AirportDetails Destination,
         string Provider,
         string FlightNumber,
         DateTime DepartureTime,
@@ -11,6 +13,7 @@ namespace SkyRoute.Domain.Models
         int DurationMinutes,
         string CabinClass,
         decimal PricePerPassenger,
-        decimal PriceTotal
+        decimal PriceTotal,
+        bool IsInternational
     );
 }

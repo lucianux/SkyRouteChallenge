@@ -6,8 +6,16 @@ export interface FlightSearchParams {
   cabinClass: string;
 }
 
+export interface AirportDetails {
+  code: string;
+  airportName: string;
+  country: string;
+}
+
 export interface FlightResponse {
   flightId: string;
+  origin: AirportDetails;
+  destination: AirportDetails;
   provider: string;
   flightNumber: string;
   departureTime: string;
@@ -16,6 +24,7 @@ export interface FlightResponse {
   cabinClass: string;
   pricePerPassenger: number;
   priceTotal: number;
+  isInternational: boolean;
 }
 
 export interface PassengerDetails {

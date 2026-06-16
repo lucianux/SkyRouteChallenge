@@ -7,10 +7,12 @@ namespace SkyRoute.Application.Services
   public class FlightSearchService : IFlightSearchService
   {
     private readonly IEnumerable<IAirlineProviderStrategy> _providers;
+    private readonly IAirportService _airportService;
 
-    public FlightSearchService(IEnumerable<IAirlineProviderStrategy> providers)
+    public FlightSearchService(IEnumerable<IAirlineProviderStrategy> providers, IAirportService airportService)
     {
       _providers = providers;
+      _airportService = airportService;
     }
 
     public async Task<IEnumerable<FlightResponse>> SearchAndConsolidateAsync(FlightSearchParams searchParams)
@@ -19,6 +21,11 @@ namespace SkyRoute.Application.Services
       var tasks = _providers.Select(async provider =>
       {
         var rawFlights = await provider.SearchFlightsAsync(searchParams);
+
+        var originDetails = _airportService.GetDetailsByCode(searchParams.Origin);
+        var destinationDetails = _airportService.GetDetailsByCode(searchParams.Destination);
+
+        bool isInternational = !originDetails.Country.Equals(destinationDetails.Country, StringComparison.OrdinalIgnoreCase);
 
         // Artificial delay - Network Latency Simulation
         //await Task.Delay(2000);
@@ -32,6 +39,8 @@ namespace SkyRoute.Application.Services
 
           return new FlightResponse(
             flightId,
+            originDetails,
+            destinationDetails,
             provider.ProviderName,
             rawFlight.FlightNumber,
             rawFlight.DepartureTime,
@@ -39,7 +48,8 @@ namespace SkyRoute.Application.Services
             rawFlight.DurationMinutes,
             rawFlight.CabinClass,
             finalPriceTotal / searchParams.Passengers,
-            finalPriceTotal);
+            finalPriceTotal,
+            isInternational);
         });
       });
         
