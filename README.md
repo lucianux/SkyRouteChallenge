@@ -155,4 +155,5 @@ docker compose logs -f
 ## Function and technical constraints
 
 - Search Input Validation: Origin and destination locations must be entered using standard 3-letter IATA airport codes (e.g., EZE).
-- Work is underway to run the application in Docker
+- The search filter is not applied when the search is run.
+- Work is underway to run the application in Docker.
