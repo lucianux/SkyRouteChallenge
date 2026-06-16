@@ -2,13 +2,14 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FlightSearchParams, FlightResponse, BookingRequest, BookingResponse } from '../models/flight.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FlightService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5122/api';
+  private apiUrl = `${environment.apiUrl}`;
 
   selectedFlight = signal<FlightResponse | null>(null);
   currentSearchParams = signal<FlightSearchParams | null>(null);

@@ -96,11 +96,16 @@ cd SkyRouteChallenge/src/frontend
 ```
 npm install
 ```
-- Boot up the local development server:
+- Boot up the local production server:
 ```
-ng serve
+ng serve --configuration production
 ```
 - Open your web browser and go to: http://localhost:4200
+
+- If you want to run the development server:
+```
+ng serve --configuration development
+```
 
 ## Running the Ecosystem with Docker Compose
 
