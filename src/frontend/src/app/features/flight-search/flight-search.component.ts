@@ -17,12 +17,12 @@ export class FlightSearchComponent {
   private flightService = inject(FlightService);
   private router = inject(Router);
 
-  // Signals para manejar el estado local reactivo
+  // Signals to handle the reactive local state
   flights = signal<FlightResponse[]>([]);
   isLoading = signal<boolean>(false);
   sortBy = signal<string>('price'); // 'price' | 'duration' | 'departure'
 
-  // Formulario Reactivo
+  // Reactive Form
   searchForm = this.fb.group({
     origin: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
     destination: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
@@ -31,8 +31,7 @@ export class FlightSearchComponent {
     cabinClass: ['Economy', Validators.required]
   });
 
-  // Computed Signal: Se ejecuta automáticamente en memoria cuando cambia 'flights' o 'sortBy'
-  // Reemplaza de forma eficiente a los Pipes de ordenamiento tradicionales
+  // Computed Signal: Automatically runs in memory when 'flights' or 'sortBy' changes
   orderedFlights = computed(() => {
     const list = [...this.flights()];
     const criteria = this.sortBy();
