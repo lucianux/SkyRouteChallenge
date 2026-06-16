@@ -80,11 +80,15 @@ To run the full stack locally for testing and verification purposes, open two se
 ```
 cd SkyRouteChallenge/src/backend/SkyRoute.Api
 ```
-- Restore packages and execute the server:
+- Restore packages and execute the development server:
 ```
 dotnet run
 ```
 - The API will spin up locally. You can access the Swagger UI directly at http://localhost:5122/swagger to interact with raw endpoints.
+- In Production environment:
+```
+dotnet run --launch-profile ProductionMode
+```
 
 ### Step 2: Run the Frontend (Angular SPA)
 
