@@ -8,7 +8,7 @@ RUN npm install
 
 # Copy source code and compile for production
 COPY . .
-RUN npm run build -- --configuration=production
+RUN npm run build -- --configuration=development
 
 # Stage 2: Nginx server for static files
 FROM nginx:alpine
